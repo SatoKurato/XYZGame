@@ -19,5 +19,18 @@
   { "title": "Horizon Zero Dawn", "keywords": ["horizon zero dawn", "horizon"], "url": "horizon.html" },
   { "title": "Far Cry 6", "keywords": ["far cry 6", "farcry6"], "url": "farcry6.html" },
   { "title": "Ghost of Tsushima", "keywords": ["ghost of tsushima", "ghostoftsushima"], "url": "ghostoftsushima.html" },
-  { "title": "Watch Dogs: Legion", "keywords": ["watch dogs legion", "watchdogslegion"], "url": "watchdogslegion.html" }
+  { "title": "Watch Dogs: Legion", "keywords": ["watch dogs legion", "watchdogslegion"], "url": "watchdogslegion.html" },
+  { "title": "FIFA (EA Sports)", "keywords": ["fifa", "football", "sports"], "url": "fifa.html" },
+  { "title": "eFootball (PES)", "keywords": ["efootball", "pes", "football", "sports"], "url": "efootball.html" },
+  { "title": "NBA 2K 25", "keywords": ["nba", "nba2k", "basketball", "sports"], "url": "nba2k.html" },
+  { "title": "Rocket League", "keywords": ["rocketleague", "rocket league", "soccer", "vehicles", "sports"], "url": "rocketleague.html" },
+  { "title": "Madden NFL", "keywords": ["madden", "nfl", "american football", "sports"], "url": "madden.html" },
+  { "title": "Football Manager", "keywords": ["football manager", "manager", "sports", "strategy"], "url": "footballmanager.html" },
+  { "title": "World of Warcraft", "keywords": ["world of warcraft", "wow", "mmorpg"], "url": "wow.html" },
+  { "title": "Final Fantasy XIV", "keywords": ["final fantasy xiv", "ffxiv", "mmorpg"], "url": "ffxiv.html" },
+  { "title": "Guild Wars 2", "keywords": ["guild wars 2", "gw2", "mmorpg"], "url": "gw2.html" },
+  { "title": "Black Desert Online", "keywords": ["black desert", "black desert online", "bdo"], "url": "blackdesert.html" },
+  { "title": "The Elder Scrolls Online", "keywords": ["elder scrolls online", "eso", "tamriel"], "url": "eso.html" },
+  { "title": "Lost Ark", "keywords": ["lost ark", "lostark"], "url": "lostark.html" },
+  { "title": "RuneScape", "keywords": ["runescape", "rs3", "old school runescape"], "url": "runescape.html" }
 ]

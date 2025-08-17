@@ -5,6 +5,7 @@
   --muted:#9b9b9b;
   --accent:#ff9900;
   --card-bg:#161616;
+  --text:#eee;
 }
 *{box-sizing:border-box}
 html,body{height:100%;margin:0;font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#0b0b0b,#0f0f10);color:#eee}
@@ -95,4 +96,15 @@ html,body{height:100%;margin:0;font-family:Inter,Segoe UI,Roboto,Arial,sans-seri
 .card:hover .quick{opacity:1;transform:translateY(0)}
 .card .quick .btn{padding:8px 10px}
 
+/* Game detail layout */
+.game-detail{padding:28px;max-width:980px;margin:18px auto;color:var(--text)}
+.game-detail header{margin-bottom:12px}
+.game-detail .subtitle{color:var(--muted);margin-top:6px}
+.detail-grid{display:grid;grid-template-columns:320px 1fr;gap:20px;align-items:start}
+.detail-cover{width:100%;height:auto;border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,0.45)}
+.detail-info .price{background:linear-gradient(180deg,#fff1cc,#ffd796);color:#111;padding:8px 12px;border-radius:8px;font-weight:700;display:inline-block}
+.detail-info .desc{margin:12px 0;color:var(--muted)}
+.back-btn{display:inline-block;margin-bottom:12px;padding:8px 12px;background:transparent;border:1px solid rgba(255,255,255,0.06);border-radius:8px;color:inherit;text-decoration:none}
+
 @media (max-width:640px){.cover{height:130px}.title{font-size:15px}}
+@media (max-width:720px){.detail-grid{grid-template-columns:1fr;}}
