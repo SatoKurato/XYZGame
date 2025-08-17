@@ -1,0 +1,23 @@
+[
+  { "title": "Valorant", "keywords": ["valorant", "valo"], "url": "valorant.html" },
+  { "title": "League of Legends", "keywords": ["league of legends", "league", "lol"], "url": "league.html" },
+  { "title": "Dota 2", "keywords": ["dota 2", "dota"], "url": "dota.html" },
+  { "title": "Apex Legends", "keywords": ["apex legends", "apex"], "url": "apex.html" },
+  { "title": "Minecraft", "keywords": ["minecraft", "mc"], "url": "minecraft.html" },
+  { "title": "Roblox", "keywords": ["roblox"], "url": "roblox.html" },
+  { "title": "Grand Theft Auto V", "keywords": ["gta", "gta v", "grand theft auto"], "url": "gta5.html" },
+  { "title": "Red Dead Redemption 2", "keywords": ["red dead", "red dead redemption", "rdr2"], "url": "rdr2.html" },
+  { "title": "Elden Ring", "keywords": ["elden ring", "elden"], "url": "eldenring.html" },
+  { "title": "CS:GO", "keywords": ["csgo", "counter-strike", "counter strike", "counter strike global offensive"], "url": "csgo.html" },
+  { "title": "Call of Duty: Modern Warfare II", "keywords": ["call of duty", "cod", "modern warfare"], "url": "cod.html" },
+  { "title": "Tom Clancy's Rainbow Six Siege", "keywords": ["rainbow six", "r6", "rainbow six siege"], "url": "r6.html" },
+  { "title": "Overwatch 2", "keywords": ["overwatch 2", "overwatch"], "url": "overwatch2.html" },
+  { "title": "Escape from Tarkov", "keywords": ["tarkov", "escape from tarkov"], "url": "tarkov.html" },
+  { "title": "The Witcher 3: Wild Hunt", "keywords": ["the witcher 3", "witcher3", "witcher"], "url": "witcher3.html" },
+  { "title": "Cyberpunk 2077", "keywords": ["cyberpunk", "cyberpunk 2077"], "url": "cyberpunk2077.html" },
+  { "title": "Assassin's Creed Valhalla", "keywords": ["assassin's creed valhalla", "ac valhalla", "acvalhalla"], "url": "acvalhalla.html" },
+  { "title": "Horizon Zero Dawn", "keywords": ["horizon zero dawn", "horizon"], "url": "horizon.html" },
+  { "title": "Far Cry 6", "keywords": ["far cry 6", "farcry6"], "url": "farcry6.html" },
+  { "title": "Ghost of Tsushima", "keywords": ["ghost of tsushima", "ghostoftsushima"], "url": "ghostoftsushima.html" },
+  { "title": "Watch Dogs: Legion", "keywords": ["watch dogs legion", "watchdogslegion"], "url": "watchdogslegion.html" }
+]

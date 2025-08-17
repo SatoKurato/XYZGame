@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sign Up Modal</title>
+  <link rel="stylesheet" href="SignIn.css">
+</head>
+<body>
+  <div class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal">
+      <button class="close" aria-label="Close">✕</button>
+      <div class="brand">
+        <div class="logo">XYZ<span style="background:#111;color:var(--accent);padding:2px 6px;border-radius:2px;margin-left:6px">Hub</span></div>
+        <div>
+          <div class="title">Sign Up for Free</div>
+          <div class="subtitle">and enhance your experience</div>
+        </div>
+      </div>
+
+      <div class="privacy">
+        <div class="icon">🔒</div>
+        <div>
+          <div style="font-weight:600">Your privacy is very important to us.</div>
+          <div style="margin-top:6px;color:var(--muted);font-size:13px">We only collect your email address and do not share or store any other personal information.</div>
+        </div>
+      </div>
+
+      <a class="btn btn-google" href="https://accounts.google.com/signin" target="_blank" rel="noopener noreferrer" role="button"><svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path fill="#EA4335" d="M24 9.5c3.9 0 6.7 1.7 8.2 3.1l6-6C35 3.3 29.9 1 24 1 14.7 1 6.9 6.8 3.1 14.7l7.1 5.5C12.8 16 17.9 9.5 24 9.5z"/></svg> Sign up with Google</a>
+
+      <button class="btn btn-x"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#fff" d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2z"/></svg> Sign up with X</button>
+
+      <div class="or-divider">OR</div>
+
+      <button class="primary">Sign up with email and password</button>
+
+      <div class="footer">Already have an account? <a href="#">Login here</a></div>
+      <div class="small-terms">By signing up, you agree to our <a href="#">Terms and Conditions</a>.</div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const overlay = document.querySelector('.modal-overlay');
+      if(!overlay) return;
+      const closeBtn = overlay.querySelector('.close');
+      const removeModal = ()=>{ if(overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay); };
+      if(closeBtn) closeBtn.addEventListener('click', removeModal);
+      overlay.addEventListener('click', e => { if(e.target === overlay) removeModal(); });
+      document.addEventListener('keydown', e => { if(e.key === 'Escape') removeModal(); });
+    })();
+  </script>
+
+</body>
+</html>

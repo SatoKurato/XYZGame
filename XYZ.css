@@ -1,0 +1,50 @@
+/* XYZ.css - layout inspired by the provided screenshot */
+:root{
+  --bg:#0f0f10;
+  --panel:#111;
+  --muted:#9b9b9b;
+  --accent:#ffffff;
+  --card-bg:#121212;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:#eee}
+header.site-header{display:flex;align-items:center;gap:18px;padding:14px 22px;background:linear-gradient(180deg,#0b0b0b, #0f0f0f);border-bottom:1px solid rgba(255,255,255,0.03);position:sticky;top:0;z-index:50}
+.site-logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:20px}
+.site-logo .mark{background:var(--accent);color:#111;padding:6px 10px;border-radius:4px}
+.search{flex:1;display:flex;align-items:center}
+.search input{width:100%;padding:9px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.06);background:#0b0b0b;color:#fff}
+.header-actions{display:flex;align-items:center;gap:12px}
+.header-actions .pill{padding:8px 12px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.03);color:#fff}
+.container{max-width:1200px;margin:18px auto;padding:0 18px}
+.tags{display:flex;gap:10px;flex-wrap:wrap;padding:12px 0}
+.tag{background:rgba(255,255,255,0.04);padding:8px 12px;border-radius:20px;color:var(--muted);font-size:13px}
+.main-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px}
+.card{background:var(--card-bg);border-radius:8px;overflow:hidden;color:#ddd}
+.thumb{position:relative;padding-top:56%;background:linear-gradient(180deg, #2b2b2b, #151515);display:block}
+.thumb::after{content:"";position:absolute;left:8px;bottom:8px;background:rgba(0,0,0,0.6);color:#fff;padding:4px 8px;border-radius:4px;font-size:12px}
+.thumb .duration{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,0.6);color:#fff;padding:4px 6px;border-radius:4px;font-size:12px}
+.card-content{padding:10px}
+.title{font-size:14px;line-height:1.25;margin:0 0 6px;color:#eee;min-height:36px}
+.meta{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+.meta .views{display:flex;align-items:center;gap:6px}
+.footer-ad{background:linear-gradient(90deg,#191919,#0f0f0f);padding:16px;border-radius:8px;color:var(--muted);text-align:center}
+/* small screens */
+@media (max-width:640px){.container{padding:0 12px}.site-logo{font-size:16px}.title{font-size:13px}}
+
+/* utility to simulate thumbnail image using CSS variable */
+.card[data-thumb] .thumb{background-size:cover;background-position:center}
+.card[data-thumb="1"] .thumb{background-image:linear-gradient(180deg,rgba(255,150,150,0.06),transparent),url("../6310/Takuay.JPG");}
+.card[data-thumb="2"] .thumb{background-image:linear-gradient(180deg,rgba(150,200,255,0.04),transparent),url("../6310/Takuay3.jpg");}
+.card[data-thumb="3"] .thumb{background-image:linear-gradient(180deg,rgba(200,180,255,0.03),transparent),url("../6310/F.jpg");}
+.card[data-thumb="4"] .thumb{background-image:linear-gradient(180deg,rgba(200,200,200,0.03),transparent),url("../6310/NomsodDemo.ttf");}
+/* fallback: show play icon */
+.play-icon{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:50%;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center}
+.play-icon:after{content:"";display:block;width:0;height:0;border-left:14px solid #fff;border-top:9px solid transparent;border-bottom:9px solid transparent}
+
+/* small tweaks */
+.pills-row{display:flex;gap:10px;align-items:center}
+.more{color:var(--muted);font-size:13px}
+/* user avatar button */
+.user-btn{width:40px;height:40px;padding:0;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.04);cursor:pointer}
+.user-btn svg{display:block}
+.user-btn:hover{box-shadow:0 0 0 4px rgba(255,153,0,0.06);background:rgba(255,255,255,0.04)}

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ค้นหาเกม — XYZGame</title>
+  <link rel="stylesheet" href="PVP.css">
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,'Noto Sans',Arial;display:flex;min-height:100vh;align-items:center;justify-content:center;background:#0f0f11;color:#fff;margin:0}
+    .search-wrap{width:min(760px,96%);background:linear-gradient(180deg,#111,#0b0b0b);padding:24px;border-radius:12px;box-shadow:0 10px 40px rgba(0,0,0,0.6)}
+    h1{margin:0 0 10px;font-size:20px}
+    p{margin:0 0 16px;color:var(--muted,#9aa0a6)}
+    .row{display:flex;gap:8px}
+    input[type=search]{flex:1;padding:12px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:#fff;font-size:16px}
+    button.search-btn{padding:0 14px;border-radius:8px;border:none;background:linear-gradient(180deg,#ffb03b,#ff8a00);color:#111;font-weight:700}
+    .results{margin-top:12px}
+    .suggest{padding:10px;border-radius:8px;background:rgba(255,255,255,0.02);margin-bottom:8px;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+    .suggest small{color:var(--muted,#9aa0a6)}
+    .notfound{padding:10px;color:var(--muted,#9aa0a6)}
+    .hint{margin-top:10px;color:var(--muted,#9aa0a6);font-size:13px}
+  </style>
+</head>
+<body>
+  <div class="search-wrap">
+    <h1>ค้นหาเกม</h1>
+    <p>พิมพ์ชื่อเกมแล้วกดค้นหา — ถ้าพบหน้าหมวดหมู่หรือหน้าที่เกมอยู่ จะพาไปหน้าเลย</p>
+    <form id="searchForm" onsubmit="return false;">
+      <div class="row">
+        <input id="q" type="search" placeholder="เช่น: GTA, Valorant, Minecraft" aria-label="search game">
+        <button id="go" class="search-btn" type="button">ค้นหา</button>
+      </div>
+    </form>
+    <div class="results" id="results"></div>
+    
+    <script>
+      // if q present in querystring, prefill and auto-search
+      (function(){
+        var params = new URLSearchParams(location.search);
+        var q = params.get('q');
+        if(q){
+          var input = document.getElementById('q');
+          input.value = q;
+          // trigger input event to show suggestions
+          var ev = new Event('input', { bubbles: true, cancelable: true });
+          input.dispatchEvent(ev);
+          // optionally auto-submit search
+          document.getElementById('go').click();
+        }
+      })();
+    </script>
+
+    <div class="hint">ตัวอย่าง: พิมพ์คำบางส่วนก็พอ — ระบบจะค้นหาแบบไม่สนใจตัวพิมพ์</div>
+  </div>
+
+  <script>
+    (function(){
+      var index = null; // will be loaded from search-index.json
+
+      var searchInput = document.getElementById('q');
+      var results = document.getElementById('results');
+      var go = document.getElementById('go');
+
+      function normalize(s){ return (s||'').trim().toLowerCase(); }
+
+      function findMatches(query){
+        query = normalize(query);
+        if(!query || !Array.isArray(index)) return [];
+        var out = [];
+        index.forEach(function(item){
+          // test against title and keywords
+          var title = normalize(item.title);
+          if(title.indexOf(query)!==-1) { out.push({name:item.title,url:item.url}); return; }
+          for(var i=0;i<item.keywords.length;i++){
+            var k = normalize(item.keywords[i]);
+            if(k.indexOf(query)!==-1 || query.indexOf(k)!==-1){ out.push({name:item.title,url:item.url}); return; }
+          }
+        });
+        return out;
+      }
+
+      function renderResults(list){
+        results.innerHTML='';
+        if(!list || list.length===0){
+          results.innerHTML='<div class="notfound">ไม่พบผลการค้นหา — ลองคำอื่นหรือเข้า <a href="XYZ.html">หน้าแรก</a>.</div>';
+          return;
+        }
+        list.forEach(function(item){
+          var el = document.createElement('div');
+          el.className='suggest';
+          el.innerHTML = '<div>'+item.name+'</div><small>'+item.url+'</small>';
+          el.tabIndex = 0;
+          el.addEventListener('click', function(){ location.href = item.url; });
+          el.addEventListener('keydown', function(e){ if(e.key==='Enter') location.href = item.url; });
+          results.appendChild(el);
+        });
+      }
+
+      // fetch index then wire up input
+      fetch('search-index.json').then(function(r){ return r.json(); }).then(function(data){ index = data || []; 
+        // prefill q from querystring if present
+        var params = new URLSearchParams(location.search); var qparam = params.get('q'); if(qparam){ searchInput.value = qparam; }
+        // initial render if typing present
+        searchInput.addEventListener('input', function(){ var q = searchInput.value; var found = findMatches(q); renderResults(found); });
+        if(searchInput.value) document.getElementById('go').click();
+      }).catch(function(){ index = []; });
+
+      // handle search button
+      go.addEventListener('click', function(){
+        var q = searchInput.value;
+        var found = findMatches(q);
+        if(found && found.length>0){
+          if(found.length===1) location.href = found[0].url;
+          else renderResults(found);
+        } else {
+          renderResults([]);
+        }
+      });
+
+      // allow Enter to trigger search (works even before fetch completes)
+      searchInput.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); go.click(); } });
+
+    })();
+   </script>
+ </body>
+ </html>

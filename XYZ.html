@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XYZGame</title>
+    <link rel="stylesheet" href="XYZ.css">
+    <link rel="stylesheet" href="PVP.css"> <!-- game listing styles -->
+    <style>
+      /* Category link buttons (pills) */
+      .tags{ display:flex; gap:8px; flex-wrap:wrap; margin:12px 0; }
+      .tags .tag{ list-style:none; }
+      .tags .tag a{
+        display:inline-block;
+        padding:8px 14px;
+        background: linear-gradient(180deg,#ffb03b,#ff8a00);
+        color:#111;
+        text-decoration:none;
+        border-radius:999px;
+        font-weight:600;
+        font-size:14px;
+        box-shadow:0 6px 18px rgba(0,0,0,0.28);
+        border:1px solid rgba(255,255,255,0.06);
+        transition:transform .15s ease,box-shadow .15s ease,opacity .15s ease;
+      }
+      .tags .tag a:hover{ transform:translateY(-3px); box-shadow:0 10px 30px rgba(0,0,0,0.38); opacity:0.98; }
+      .tags .tag a:active{ transform:translateY(-1px) scale(.995); }
+      .tags .tag a:focus{ outline:2px solid rgba(255,140,0,0.18); outline-offset:3px; }
+      @media (max-width:640px){ .tags{ justify-content:center; } }
+
+      /* header search dropdown */
+      .header-search-dropdown{
+        position:absolute;
+        top:calc(100% + 6px);
+        left:0;
+        right:0;
+        background: #0b0b0b;
+        border-radius:8px;
+        box-shadow:0 8px 30px rgba(0,0,0,0.6);
+        padding:8px;
+        z-index:1200;
+        max-height:320px;overflow:auto;
+      }
+      .header-search-item{padding:8px 10px;border-radius:6px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+      .header-search-item:hover{background:rgba(255,255,255,0.02)}
+      .header-search-item small{color:var(--muted,#9aa0a6);margin-left:8px}
+      @media (max-width:640px){ .header-search-dropdown{position:static;margin-top:8px;} }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="site-logo"><span class="mark">XYZ</span> Game</div>
+        <div class="search">
+          <form id="headerSearchForm" action="Search.html" method="get" style="margin:0;position:relative">
+            <input id="headerSearch" name="q" type="search" placeholder="Search" aria-label="Search" style="padding:6px 10px;border-radius:6px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit">
+            <div id="headerSearchDropdown" class="header-search-dropdown" style="display:none"></div>
+          </form>
+        </div>
+        <div class="header-actions">
+            <button class="pill">Login</button>
+            <button class="pill" type="button" id="signInBtn">Sign in</button>
+        </div>
+    </header>
+
+    <!-- sign-in modal (hidden by default) -->
+    <div id="signInModal" class="modal-overlay" style="display:none;position:fixed;inset:0;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);z-index:1000">
+      <div class="modal" style="background:var(--card-bg);padding:20px;border-radius:10px;max-width:420px;width:92%;color:#fff;box-shadow:0 12px 40px rgba(0,0,0,0.6);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <h3 style="margin:0">Sign in to XYZ</h3>
+          <button id="closeSignIn" class="btn">Close</button>
+        </div>
+        <p style="color:var(--muted);font-size:14px;margin:0 0 12px">Enter your email and password to sign in, or continue with Google.</p>
+
+        <form id="signInForm" style="display:flex;flex-direction:column;gap:10px">
+          <input type="email" name="email" placeholder="Email" required class="pill" style="padding:10px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:#fff">
+          <input type="password" name="password" placeholder="Password" required class="pill" style="padding:10px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:#fff">
+          <label style="display:flex;align-items:center;gap:8px;color:var(--muted)"><input type="checkbox" name="remember"> Remember me</label>
+
+          <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
+            <button type="submit" class="btn download">Sign in</button>
+          </div>
+
+          <div style="margin-top:6px;display:flex;justify-content:center">
+            <a class="btn" href="https://accounts.google.com/" target="_blank" rel="noopener">Sign in with Google</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      (function(){
+        var btn = document.getElementById('signInBtn');
+        var modal = document.getElementById('signInModal');
+        var close = document.getElementById('closeSignIn');
+        var form = document.getElementById('signInForm');
+
+        function openModal(){ if(modal){ modal.style.display='flex'; document.body.style.overflow='hidden'; } }
+        function closeModal(){ if(modal){ modal.style.display='none'; document.body.style.overflow='auto'; } }
+
+        if(btn){ btn.addEventListener('click', openModal); }
+        if(close){ close.addEventListener('click', closeModal); }
+
+        // close when clicking outside
+        if(modal){ modal.addEventListener('click', function(e){ if(e.target === modal){ closeModal(); } }); }
+
+        // esc key
+        document.addEventListener('keydown', function(e){ if(e.key === 'Escape'){ closeModal(); } });
+
+        // demo form submit handling
+        if(form){
+          form.addEventListener('submit', function(e){
+            e.preventDefault();
+            var email = (form.elements['email'] || {}).value || '';
+            var password = (form.elements['password'] || {}).value || '';
+            if(!email || !password){
+              alert('Please enter email and password.');
+              return;
+            }
+            // Demo: pretend to sign in, then close modal
+            closeModal();
+            // Replace with real auth flow when backend available
+            alert('Signed in (demo): ' + email);
+          });
+        }
+      })();
+    </script>
+
+    <!-- header AJAX-like search script -->
+    <script>
+      (function(){
+        var input = document.getElementById('headerSearch');
+        var dropdown = document.getElementById('headerSearchDropdown');
+        if(!input || !dropdown) return;
+
+        // load index from JSON file
+        var index = [];
+        fetch('search-index.json').then(function(r){ return r.json(); }).then(function(data){ index = data || []; }).catch(function(){ index = []; });
+
+        function normalize(s){return (s||'').trim().toLowerCase();}
+        function findMatches(q){
+          q = normalize(q); if(!q || !Array.isArray(index)) return [];
+          var res = [];
+          index.forEach(function(item){
+            var title = normalize(item.title);
+            if(title.indexOf(q)!==-1){ res.push({name:item.title,url:item.url}); return; }
+            for(var i=0;i<(item.keywords||[]).length;i++){
+              var k = normalize(item.keywords[i]);
+              if(k.indexOf(q)!==-1 || q.indexOf(k)!==-1){ res.push({name:item.title,url:item.url}); return; }
+            }
+          });
+          return res;
+        }
+
+        function render(list){
+          dropdown.innerHTML='';
+          if(!list || list.length===0){ dropdown.style.display='none'; return; }
+          list.slice(0,10).forEach(function(item){
+            var el = document.createElement('div'); el.className='header-search-item';
+            el.innerHTML = '<div>'+item.name+'</div><small>'+item.url+'</small>';
+            el.addEventListener('click', function(){ location.href = item.url; });
+            el.addEventListener('keydown', function(e){ if(e.key==='Enter') location.href = item.url; });
+            el.tabIndex = 0;
+            dropdown.appendChild(el);
+          });
+          dropdown.style.display='block';
+        }
+
+        var hideTimeout = null;
+        input.addEventListener('input', function(){ render(findMatches(input.value)); });
+        input.addEventListener('keydown', function(e){
+          if(e.key === 'Enter'){
+            e.preventDefault();
+            var matches = findMatches(input.value);
+            if(matches.length>0) location.href = matches[0].url;
+          } else if(e.key === 'ArrowDown' || e.key==='ArrowUp'){
+            // simple focus management: move focus to first item
+            var first = dropdown.querySelector('.header-search-item'); if(first) first.focus();
+          }
+        });
+
+        // hide on blur with small delay so click registers
+        input.addEventListener('blur', function(){ hideTimeout = setTimeout(function(){ dropdown.style.display='none'; }, 150); });
+        dropdown.addEventListener('mousedown', function(){ clearTimeout(hideTimeout); });
+        dropdown.addEventListener('blur', function(){ dropdown.style.display='none'; }, true);
+      })();
+    </script>
+
+    <main class="container">
+        <div class="tags">
+            <div class="tag"><a href="PVP.html">PVP</a></div>
+            <div class="tag"><a href="FPS.html">FPS</a></div>
+            <div class="tag"><a href="OpenWorld.html">Open World</a></div>
+            <div class="tag"><a href="Sport.html">Sport</a></div>
+            <div class="tag"><a href="RPG.html">RPG</a></div>
+            <div class="tag"><a href="MMORPG.html">MMORPG</a></div>
+        </div>
+
+        <h2 class="more">Popular Games Right Now</h2>
+
+        <section class="grid">
+            <article class="card" onclick="location.href='valorant.html'" style="cursor:pointer">
+                <img src="Valo.jpg" alt="Valorant cover" class="cover">
+                <div class="card-body">
+                  <div class="title">Valorant</div>
+                  <div class="tags"><span class="tag">FPS</span><span class="tag">Team</span></div>
+                  <div class="desc">Tactical FPS with agents and abilities. Competitive 5v5 matches.
+                  </div>
+                  <div class="meta">
+                    <div class="actions">
+                      <a class="btn download" href="https://playvalorant.com/" target="_blank" rel="noopener">Download</a>
+                    </div>
+                    <div class="price">Free</div>
+                  </div>
+                  <div style="font-size:12px;color:var(--muted);margin-top:6px">Available from Riot Games — Windows</div>
+                </div>
+            </article>
+
+            <article class="card" onclick="location.href='league.html'" style="cursor:pointer">
+                <img src="League of Legends.jpg" alt="League cover" class="cover">
+                <div class="card-body">
+                  <div class="title">League of Legends</div>
+                  <div class="tags"><span class="tag">MOBA</span><span class="tag">5v5</span></div>
+                  <div class="desc">Classic MOBA with champions, objectives and ranked ladder.</div>
+                  <div class="meta">
+                    <div class="actions">
+                      <a class="btn download" href="https://www.leagueoflegends.com/" target="_blank" rel="noopener">Download</a>
+                    </div>
+                    <div class="price">Free</div>
+                  </div>
+                  <div style="font-size:12px;color:var(--muted);margin-top:6px">Available from Riot Games — Windows/macOS</div>
+                </div>
+            </article>
+
+            <article class="card" onclick="location.href='dota.html'" style="cursor:pointer">
+                <img src="Dota.jpg" alt="Dota 2 cover" class="cover">
+                <div class="card-body">
+                  <div class="title">Dota 2</div>
+                  <div class="tags"><span class="tag">MOBA</span><span class="tag">5v5</span></div>
+                  <div class="desc">Deep-strategy MOBA with item builds and hero roles. Big esports scene.</div>
+                  <div class="meta">
+                    <div class="actions">
+                      <a class="btn download" href="https://store.steampowered.com/app/570/Dota_2/" target="_blank" rel="noopener">Get on Steam</a>
+                    </div>
+                    <div class="price">Free</div>
+                  </div>
+                  <div style="font-size:12px;color:var(--muted);margin-top:6px">Available on Steam — Windows/macOS/Linux</div>
+                </div>
+            </article>
+
+            <article class="card" onclick="location.href='apex.html'" style="cursor:pointer">
+                <img src="Apex.jpg" alt="Apex Legends cover" class="cover">
+                <div class="card-body">
+                  <div class="title">Apex Legends</div>
+                  <div class="tags"><span class="tag">Battle Royale</span><span class="tag">Squad</span></div>
+                  <div class="desc">Fast-paced hero BR with squad respawn mechanics and diverse movement.</div>
+                  <div class="meta">
+                    <div class="actions">
+                      <a class="btn download" href="https://www.ea.com/games/apex-legends" target="_blank" rel="noopener">Download</a>
+                    </div>
+                    <div class="price">Free</div>
+                  </div>
+                  <div style="font-size:12px;color:var(--muted);margin-top:6px">Available from EA — Windows/Console</div>
+                </div>
+            </article>
+
+            <!-- additional popular games -->
+            <article class="card" onclick="location.href='minecraft.html'" style="cursor:pointer">
+                <img src="Mine.jpg" alt="Minecraft cover" class="cover">
+                <div class="card-body">
+                  <div class="title">Minecraft</div>
+                  <div class="tags"><span class="tag">Sandbox</span><span class="tag">Creative</span></div>
+                  <div class="desc">Open-world sandbox focused on building, exploration and mods.</div>
+                  <div class="meta">
+                    <div class="actions">
+                      <a class="btn download" href="https://www.minecraft.net/" target="_blank" rel="noopener">Buy / Download</a>
+                    </div>
+                    <div class="price">From $26.95</div>
+                  </div>
+                  <div style="font-size:12px;color:var(--muted);margin-top:6px">Available on Minecraft.net — Windows/macOS/Console</div>
+                </div>
+            </article>
+
+            <article class="card" onclick="location.href='roblox.html'" style="cursor:pointer">
+                <img src="Roblox.jpg" alt="Roblox cover" class="cover">
+                <div class="card-body">
+                  <div class="title">Roblox</div>
+                  <div class="tags"><span class="tag">Sandbox</span><span class="tag">MMO</span><span class="tag">User-created</span></div>
+                  <div class="desc">Platform for user-created games and experiences. Free-to-play with in-app purchases (Robux).</div>
+                  <div class="meta">
+                    <div class="actions">
+                      <a class="btn download" href="https://www.roblox.com/" target="_blank" rel="noopener">Visit Roblox</a>
+                    </div>
+                    <div class="price">Free (IAP)</div>
+                  </div>
+                  <div style="font-size:12px;color:var(--muted);margin-top:6px">Available on PC, macOS, iOS, Android, Xbox One</div>
+                </div>
+            </article>
+
+            <article class="card" onclick="location.href='gta5.html'" style="cursor:pointer">
+                <img src="GTA.jpg" alt="GTA V cover" class="cover">
+                <div class="card-body">
+                  <div class="title">Grand Theft Auto V (GTA V)</div>
+                  <div class="tags"><span class="tag">Open World</span><span class="tag">Action</span><span class="tag">Multiplayer</span></div>
+                  <div class="desc">Open-world action game with single-player story and GTA Online multiplayer. Huge sandbox with missions, vehicles and customization.</div>
+                  <div class="meta">
+                    <div class="actions">
+                      <a class="btn download" href="https://store.steampowered.com/app/271590/Grand_Theft_Auto_V/" target="_blank" rel="noopener">Buy on Steam</a>
+                    </div>
+                    <div class="price">From $29.99</div>
+                  </div>
+                  <div style="font-size:12px;color:var(--muted);margin-top:6px">Available on Steam / Rockstar — Windows/Console</div>
+                </div>
+            </article>
+
+            <article class="card" onclick="location.href='rdr2.html'" style="cursor:pointer">
+                <img src="RDR2.jpg" alt="Red Dead Redemption 2 cover" class="cover">
+                <div class="card-body">
+                  <div class="title">Red Dead Redemption 2</div>
+                  <div class="tags"><span class="tag">Open World</span><span class="tag">Action</span><span class="tag">Story</span></div>
+                  <div class="desc">Epic western action-adventure with an immersive single-player story and Red Dead Online multiplayer component.</div>
+                  <div class="meta">
+                    <div class="actions">
+                      <a class="btn download" href="https://store.steampowered.com/app/1174180/Red_Dead_Redemption_2/" target="_blank" rel="noopener">Buy on Steam</a>
+                    </div>
+                    <div class="price">From $59.99</div>
+                  </div>
+                  <div style="font-size:12px;color:var(--muted);margin-top:6px">Available on Steam / Rockstar — Windows/Console</div>
+                </div>
+            </article>
+
+            <article class="card" onclick="location.href='eldenring.html'" style="cursor:pointer">
+                <img src="EldenRing.jpg" alt="Elden Ring cover" class="cover">
+                <div class="card-body">
+                  <div class="title">Elden Ring</div>
+                  <div class="tags"><span class="tag">Action RPG</span><span class="tag">Open World</span><span class="tag">Single-player</span></div>
+                  <div class="desc">FromSoftware's acclaimed Action RPG with deep combat, exploration and high-challenge bosses set in a vast open world created with George R. R. Martin.</div>
+                  <div class="meta">
+                    <div class="actions">
+                      <a class="btn download" href="https://store.steampowered.com/app/1245620/ELDEN_RING/" target="_blank" rel="noopener">Buy on Steam</a>
+                    </div>
+                    <div class="price">From $59.99</div>
+                  </div>
+                  <div style="font-size:12px;color:var(--muted);margin-top:6px">Available on Steam / PlayStation / Xbox — Windows/Console</div>
+                </div>
+            </article>
+
+        </section>
+
+        <div class="footer-note">Prices and platform availability may change — always check the official store pages.</div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Member Log In</title>
+  <link rel="stylesheet" href="XYZLogin.css">
+</head>
+<body>
+  <div class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal">
+      <button class="close" aria-label="Close">✕</button>
+
+      <div class="brand">
+        <div class="logo"><span class="part1">Porn</span><span class="part2">hub</span></div>
+      </div>
+
+      <div class="title">Member Log In</div>
+      <div class="subtitle">Access your Pornhub account</div>
+
+      <div class="privacy">
+        <div class="icon">🔒</div>
+        <div class="text">Your privacy is very important to us. We only collect your email address and do not share or store any other personal information.</div>
+      </div>
+
+      <a class="btn btn-google" href="https://accounts.google.com/signin" target="_blank" rel="noopener noreferrer" role="button" onclick="(function(el){el.closest('.modal-overlay')?.remove();})(this);"><svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path fill="#EA4335" d="M24 9.5c3.9 0 6.7 1.7 8.2 3.1l6-6C35 3.3 29.9 1 24 1 14.7 1 6.9 6.8 3.1 14.7l7.1 5.5C12.8 16 17.9 9.5 24 9.5z"/></svg> Log in with Google</a>
+
+      <button class="btn btn-x"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#fff" d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2z"/></svg> Log in with X</button>
+
+      <div class="or-divider">OR</div>
+
+      <button class="primary">Log in with email and password</button>
+
+      <div class="footer">Don't have an account yet? <a href="#">Sign Up</a> here</div>
+    </div>
+  </div>
+
+  <script>
+    // close behavior
+    (function(){
+      const modal = document.querySelector('.modal-overlay');
+      const close = modal.querySelector('.close');
+      close.addEventListener('click', ()=>modal.remove());
+      modal.addEventListener('click', e=>{ if(e.target === modal) modal.remove(); });
+      document.addEventListener('keydown', e=>{ if(e.key==='Escape') modal.remove(); });
+    })();
+  </script>
+</body>
+</html>

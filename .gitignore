@@ -1,0 +1,20 @@
+# OS
+Thumbs.db
+.DS_Store
+
+# Editor
+.vscode/
+
+# Node
+node_modules/
+
+# Logs
+npm-debug.log*
+*.log
+
+# Build outputs
+dist/
+build/
+
+# GitHub Pages action artifact
+.gh-pages/
